@@ -1,0 +1,28 @@
+{
+  "name": "js_runner",
+  "version": "1.0.0",
+  "description": "a javascript interpreter in browser",
+  "main": "server.js",
+  "scripts": {
+    "test": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TakLee96/js_runner.git"
+  },
+  "keywords": [
+    "javascript",
+    "interpreter"
+  ],
+  "author": "TakLee96",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TakLee96/js_runner/issues"
+  },
+  "homepage": "https://github.com/TakLee96/js_runner#readme",
+  "dependencies": {
+    "body-parser": "^1.13.2",
+    "express": "^4.13.1"
+  }
+}
