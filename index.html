@@ -6,15 +6,26 @@
     <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-    <section>
-        <h2>Input</h2>
-        <textarea id="input"></textarea>
-        <button id="run">run</button>
-    </section>
-    <section>
-        <h2>Output</h2>
-        <input type="text" readonly height="200" id="output">
-    </section>
+    <h1>JS Runner</h1>
+    <p> –– A simple online JavaScript Interpreter</p>
+    <table>
+        <tr>
+            <td>
+                <h2>Input</h2>
+                <textarea id="input" placeholder="Type your JavaScript code here."></textarea>
+            </td>
+            <td>
+                <h2>Output</h2>
+                <textarea id="output" readonly></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="run">run</button>
+            </td>
+            <td></td>
+        </tr>
+    </table>
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
 </body>

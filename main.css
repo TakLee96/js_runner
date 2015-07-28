@@ -1,0 +1,13 @@
+body {
+    width: 700px;
+    margin: auto;
+}
+
+textarea {
+    width: 300px;
+    height: 300px;
+    overflow: scroll;
+    font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+    font-size: 12pt;
+    resize: none;
+}
