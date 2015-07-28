@@ -38,7 +38,7 @@ function run (request, response, next) {
             module: module,
             exports: module.exports,
             require: fake_require
-        });
+        }, { timeout: '2000' });
     } catch (e) {
         stderr.write(new Buffer(e.stack.toString()));
     } finally {
