@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.post('/run', run);
 app.use(errorHandlerMiddleware);
 
-app.listen(8080, function () {
+app.listen(process.env.PORT || 8080, function () {
     console.log("[Server] listening on port " + this.address().port);
 });
 
