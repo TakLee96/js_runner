@@ -1,8 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var exec = require('child_process').exec;
-var fs = require('fs');
-var uid = require('uid');
+var vm = require('vm');
+var SimpleWritableStream = require('./utils').SimpleWritableStream;
 var app = express();
 
 app.use(logMiddlerware);
@@ -17,41 +16,42 @@ app.listen(process.env.PORT || 8080, function () {
 });
 
 function logMiddlerware (request, response, next) {
-    console.log("%s -> %s (%s)", request.method, request.url, new Date());
+    console.log("(%s) %s -> [%s] ", new Date(), request.method, request.url);
     next();
 }
 
 function run (request, response, next) {
-    var jsid = uid();
-    fs.writeFile("data/" + jsid + ".js", request.body.input, function (err) {
-        if (err) {
-            next(err);
-        } else {
-            var child = exec("node data/" + jsid + ".js", {
-                timeout: 2000
-            }, function (err, stdout, stderr) {
-                if (err) {
-                    next(err);
-                } else {
-                    response.status(200).json({
-                        stdout: stdout.toString(),
-                        stderr: stderr.toString()
-                    }).end();
+    try {
+        var stdout = new SimpleWritableStream();
+        var stderr = new SimpleWritableStream();
+        var module = { exports: {} };
+        var fake_require = function () {
+            throw new Error("require is not supported");
+        };
+        fake_require.toString = function () {
+            return "function () { [native code] }";
+        };
 
-                    fs.unlink("data/" + jsid + ".js", function (err) {
-                        if (err) {
-                            console.error(err);
-                        }
-                    });
-                }
-            });
-        }
-    });
+        vm.runInNewContext(request.body.input, {
+            console: new console.Console(stdout, stderr),
+            process: {},
+            module: module,
+            exports: module.exports,
+            require: fake_require
+        });
+    } catch (e) {
+        stderr.write(new Buffer(e.stack.toString()));
+    } finally {
+        response.json({
+            stdout: stdout.toString(),
+            stderr: stderr.toString()
+        }).end();
+    }
 }
 
 function errorHandlerMiddleware (error, request, response, next) {
     if (error) {
-        console.error("An error has occured: " + error.toString());
+        console.error(error.stack.toString());
         response.status(500).json(error).end();
     } else {
         console.error("404 request for " + request.url);
