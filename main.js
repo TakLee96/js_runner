@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    var editor = ace.edit("input");
+    var JavaScriptMode = ace.require("ace/mode/javascript").Mode;
+    editor.getSession().setMode(new JavaScriptMode());
+
     var runButton = $('#run');
     var inputTextField = $('#input');
     var outputTextField = $('#output');
@@ -8,27 +12,12 @@ $(document).ready(function () {
         outputTextField.val(text);
     };
 
-    // copied code to handle tab
-    $(document).delegate('#input', 'keydown', function(e) {
-        var keyCode = e.keyCode || e.which;
-
-        if (keyCode == 9) {
-            e.preventDefault();
-            var start = $(this).get(0).selectionStart;
-            var end = $(this).get(0).selectionEnd;
-
-            $(this).val($(this).val().substring(0, start) + "    " + $(this).val().substring(end));
-
-            $(this).get(0).selectionStart = $(this).get(0).selectionEnd = start + 4;
-        }
-    });
-
     runButton.on('click', function () {
         
         runButton.html('running');
         runButton.prop('disabled', true);
 
-        $.post('/run', { input: $('#input').val() })
+        $.post('/run', { input: $(".ace_text-layer")[0].innerText })
          .success(function (respondObject) {
              println("STDOUT:\n" + respondObject.stdout + "\nSTDERR:\n" + respondObject.stderr);
              runButton.html('run');

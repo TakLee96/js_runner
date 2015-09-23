@@ -1,14 +1,26 @@
-textarea {
-    width: 400px;
-    height: 300px;
-    overflow: scroll;
-    font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
-    font-size: 12pt;
-    resize: none;
+p {
+    display: inline;
 }
 
-.block {
-    display: inline-block;
-    height: 350px;
-    margin-bottom: 25px;
+#run {
+    margin-left: 90px;
+}
+
+#input {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    top: 35px;
+}
+
+#output {
+    background-color: black;
+    color: white;
+    font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+    overflow: hidden;
+    position: absolute;
+    width: 500px;
+    height: 200px;
+    top: 535px;
+    left: 8px;
 }
