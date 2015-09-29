@@ -17,7 +17,7 @@ $(document).ready(function () {
         runButton.html('running');
         runButton.prop('disabled', true);
 
-        $.post('/run', { input: $(".ace_text-layer")[0].innerText })
+        $.post('/run', { input: $($(".ace_text-layer")[0]).text() })
          .success(function (respondObject) {
              println("STDOUT:\n" + respondObject.stdout + "\nSTDERR:\n" + respondObject.stderr);
              runButton.html('run');
